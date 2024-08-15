@@ -1,50 +1,61 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import LoginPage from "./components/LoginPage";
-import LogoutPage from "./components/LogoutPage";
-import RegisterPage from "./components/RegisterPage";
-import HomePage from "./components/HomePage";
-import CartPage from "./components/CartPage";
-import SearchPage from "./components/SearchPage";
+import React, {useState,useEffect} from 'react';
+import logo from './logo.svg';
+import './App.css';
+import P1 from './P1.js';
+import PeopleList from './PeopleList.js';
+import Image from './Image.js';
+import Component from './Component.js';
+import Component01 from './Component01.js';
+import Component02 from './Component02.js';
+import Component04 from './Component04.js';
+import ProductList from './ProductList.jsx';
+import ProductCart from './ProductCart.js';
+import Fruits from './Fruits.jsx';
+import Timer from './Timer.jsx';
+import NewEmployee from './NewEmployee.js';
+import EmployeeList from './EmployeeList.jsx';
+import Form from './HooksDemo.js';
+import Routing from './Routing.jsx';
+import {BrowserRouter as Router, Route,Routes,Link,Outlet} from 'react-router-dom';
+import Login from './Login.js';
+import ContextApiEx02 from './ContextAPIex02.jsx';
+import ContextApiEx03 from './ContextAPIex03.jsx';
 
-class App extends React.Component {
-  state = {
-    isAuthenticated: false,
-    user: null,
-    cart: [],
+function App(){
+
+  const [cart, setCart] = useState([]);
+
+  const addToCart = (product) => {
+    if (!cart.includes(product)) {
+      setCart([...cart, product]);
+    }
   };
 
-  handleLogin = (user) => {
-    this.setState({ isAuthenticated: true, user });
+  const removeFromCart = (product) => {
+    setCart(cart.filter(item => item.id !== product.id));
   };
 
-  handleLogout = () => {
-    this.setState({ isAuthenticated: false, user: null, cart: [] });
-  };
-
-  addToCart = (product) => {
-    this.setState((prevState) => ({
-      cart: [...prevState.cart, product],
-    }));
-  };
-
-  render() {
-    const { isAuthenticated, user, cart } = this.state;
-
-    return (
+  return (
+    <div>
+      {/* <ProductList addToCart={addToCart} removeFromCart={removeFromCart} cart={cart} /> */}
+      {/* <Fruits addToCart={addToCart} removeFromCart={removeFromCart} cart={cart} />  */}
+      {/* <Timer/>  */}
+      {/* <Form/> 
+       <EmployeeList/>*/}
+      {/* <Routing/>  */}
       <Router>
-        <Routes>
-          {/* Routes use the 'element' prop to pass the component as JSX */}
-          <Route path="/login" element={<LoginPage handleLogin={this.handleLogin} />} />
-          <Route path="/logout" element={<LogoutPage handleLogout={this.handleLogout} />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/cart" element={<CartPage cart={cart} />} />
-          <Route path="/search" element={<SearchPage addToCart={this.addToCart} />} />
-          <Route path="/" element={<HomePage user={user} addToCart={this.addToCart} />} />
-        </Routes>
-      </Router>
-    );
+            <Routes>
+                <Route  path="/" element={<Login/>}></Route>
+                <Route  path="/ProductList" element={<ProductList addToCart={addToCart} removeFromCart={removeFromCart} cart={cart}></ProductList>}></Route>
+                {/* <Route  path="/ProductCart" element={<ProductCart cart={cart}  ></ProductCart>}></Route>  */}
+                
+             </Routes>
+       </Router>
+      <ProductCart cart={cart} /> 
+      {/* <ContextApiEx02/>
+      <ContextApiEx03/> */}
+    </div>
+   )
   }
-}
-
 export default App;
+
