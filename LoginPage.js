@@ -1,43 +1,45 @@
-import React, { Component } from "react";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-class LoginPage extends Component {
-  state = {
-    username: "",
-    password: "",
-  };
+function Login() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  handleSubmit = (e) => {
+  const handleLogin = (e) => {
+    var promise=fetch("")
     e.preventDefault();
-    // Simple user auth simulation
-    this.props.handleLogin({ name: this.state.username });
+    if (username === 'user' && password === 'password') {
+      navigate('/ProductList');
+    } else {
+      alert('Invalid credentials');
+    }
   };
 
-  handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
-
-  render() {
-    return (
-      <div>
-        <h2>Login</h2>
-        <form onSubmit={this.handleSubmit}>
+  return (
+    <div className='login-container'>
+      <h2>Login Page</h2>
+      <form onSubmit={handleLogin} className='login-form'>
+        <div className='login-from input'>
+          <label>Username:</label>
           <input
             type="text"
-            name="username"
-            placeholder="Username"
-            onChange={this.handleChange}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
+        </div>
+        <div className='login-form input'>
+          <label>Password:</label>
           <input
             type="password"
-            name="password"
-            placeholder="Password"
-            onChange={this.handleChange}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
-          <button type="submit">Login</button>
-        </form>
-      </div>
-    );
-  }
+        </div>
+        <button type="submit" className='login-form button'>Login</button>
+      </form>
+    </div>
+  );
 }
 
-export default LoginPage;
+export default Login;
