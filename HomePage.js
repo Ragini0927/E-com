@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import Header from './Header'; // Import Header component
-import Footer from './Footer'; // Import Footer component
+import Header from './Header';
+import Footer from './Footer';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function ProductList({ user, addToCart, removeFromCart, cart }) {
   const [products, setProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(''); // State to track search input
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,9 +17,13 @@ function ProductList({ user, addToCart, removeFromCart, cart }) {
   }, []);
 
   const handleLogout = () => {
-    // Clear user session or token logic
     navigate('/logout');
   };
+
+  // Filtered products based on the search term
+  const filteredProducts = products.filter(product =>
+    product.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div>
@@ -26,8 +31,22 @@ function ProductList({ user, addToCart, removeFromCart, cart }) {
       <Header user={user} handleLogout={handleLogout} />
 
       <div className="container">
-        <div className="row mt-2">
-          {products.map(product => (
+        {/* Search Bar */}
+        <div className="row my-4">
+          <div className="col-md-12">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search for products..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+        </div>
+
+        {/* Product List */}
+        <div className="row">
+          {filteredProducts.map(product => (
             <div className="col-md-4" key={product.id}>
               <div className="card mb-4">
                 <img
