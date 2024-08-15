@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LoginPage from "./components/LoginPage";
 import LogoutPage from "./components/LogoutPage";
 import RegisterPage from "./components/RegisterPage";
@@ -33,26 +33,15 @@ class App extends React.Component {
 
     return (
       <Router>
-        <Switch>
-          <Route path="/login">
-            <LoginPage handleLogin={this.handleLogin} />
-          </Route>
-          <Route path="/logout">
-            <LogoutPage handleLogout={this.handleLogout} />
-          </Route>
-          <Route path="/register">
-            <RegisterPage />
-          </Route>
-          <Route path="/cart">
-            <CartPage cart={cart} />
-          </Route>
-          <Route path="/search">
-            <SearchPage addToCart={this.addToCart} />
-          </Route>
-          <Route path="/">
-            <HomePage user={user} addToCart={this.addToCart} />
-          </Route>
-        </Switch>
+        <Routes>
+          {/* Routes use the 'element' prop to pass the component as JSX */}
+          <Route path="/login" element={<LoginPage handleLogin={this.handleLogin} />} />
+          <Route path="/logout" element={<LogoutPage handleLogout={this.handleLogout} />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/cart" element={<CartPage cart={cart} />} />
+          <Route path="/search" element={<SearchPage addToCart={this.addToCart} />} />
+          <Route path="/" element={<HomePage user={user} addToCart={this.addToCart} />} />
+        </Routes>
       </Router>
     );
   }
